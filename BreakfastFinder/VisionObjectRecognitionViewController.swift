@@ -2,7 +2,7 @@
 See LICENSE folder for this sample’s licensing information.
 
 Abstract:
-Contains the object recognition view controller for the Breakfast Finder.
+Contains the object recognition view controller for the Breakfast Finder. Janice Copy - It works :)
 */
 
 import UIKit
@@ -21,7 +21,7 @@ class VisionObjectRecognitionViewController: ViewController {
         // Setup Vision parts
         let error: NSError! = nil
         
-        guard let modelURL = Bundle.main.url(forResource: "ObjectDetector", withExtension: "mlmodelc") else {
+        guard let modelURL = Bundle.main.url(forResource: "Janice1HandObjectClassifier", withExtension: "mlmodelc") else {
             return NSError(domain: "VisionObjectRecognitionViewController", code: -1, userInfo: [NSLocalizedDescriptionKey: "Model file is missing"])
         }
         do {
@@ -107,31 +107,32 @@ class VisionObjectRecognitionViewController: ViewController {
     func updateLayerGeometry() {
         let bounds = rootLayer.bounds
         var scale: CGFloat
-        
+
         let xScale: CGFloat = bounds.size.width / bufferSize.height
         let yScale: CGFloat = bounds.size.height / bufferSize.width
-        
+
         scale = fmax(xScale, yScale)
         if scale.isInfinite {
             scale = 1.0
         }
         CATransaction.begin()
         CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
-        
+
         // rotate the layer into screen orientation and scale and mirror
         detectionOverlay.setAffineTransform(CGAffineTransform(rotationAngle: CGFloat(.pi / 2.0)).scaledBy(x: scale, y: -scale))
         // center the layer
         detectionOverlay.position = CGPoint(x: bounds.midX, y: bounds.midY)
-        
+
         CATransaction.commit()
-        
+
     }
     
+    // CUSTOMIZATION BELOWW
     func createTextSubLayerInBounds(_ bounds: CGRect, identifier: String, confidence: VNConfidence) -> CATextLayer {
         let textLayer = CATextLayer()
         textLayer.name = "Object Label"
-        let formattedString = NSMutableAttributedString(string: String(format: "\(identifier)\nConfidence:  %.2f", confidence))
-        let largeFont = UIFont(name: "Helvetica", size: 24.0)!
+        let formattedString = NSMutableAttributedString(string: String(format: "\(identifier)\n%.2f", confidence))
+        let largeFont = UIFont(name: "Helvetica", size: 22.0)!
         formattedString.addAttributes([NSAttributedString.Key.font: largeFont], range: NSRange(location: 0, length: identifier.count))
         textLayer.string = formattedString
         textLayer.bounds = CGRect(x: 0, y: 0, width: bounds.size.height - 10, height: bounds.size.width - 10)
